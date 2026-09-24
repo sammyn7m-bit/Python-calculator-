@@ -1,26 +1,48 @@
-def main():
-    print("--- Basic Calculator ---")
-    try:
-        num1 = float(input("Enter first number: "))
-        op = input("Enter operator (+, -, *, /): ").strip()
-        num2 = float(input("Enter second number: "))
-        
-        if op == "+":
-            print(f"Result: {num1} + {num2} = {num1 + num2}")
-        elif op == "-":
-            print(f"Result: {num1} - {num2} = {num1 - num2}")
-        elif op == "*":
-            print(f"Result: {num1} * {num2} = {num1 * num2}")
-        elif op == "/":
+class Calculator:
+    def calculate(self, num1, operator, num2):
+        if operator == "+":
+            return num1 + num2
+        elif operator == "-":
+            return num1 - num2
+        elif operator == "*":
+            return num1 * num2
+        elif operator == "/":
             if num2 == 0:
-                print("Error: Math rule exception. Division by zero is undefined.")
-            else:
-                print(f"Result: {num1} / {num2} = {num1 / num2}")
+                raise ZeroDivisionError("Division by zero is undefined.")
+            return num1 / num2
         else:
-            print("Invalid operator input.")
-    except ValueError:
-        print("Error: Input strings must be numbers.")
+            raise ValueError("Invalid operator.")
+
+
+def main():
+    calculator = Calculator()
+
+    print("--- Basic Calculator ---")
+
+    while True:
+        try:
+            num1 = float(input("Enter first number: "))
+            operator = input("Enter operator (+, -, *, /): ").strip()
+
+            if operator not in {"+", "-", "*", "/"}:
+                print("Error: Invalid operator.")
+                continue
+
+            num2 = float(input("Enter second number: "))
+
+            result = calculator.calculate(num1, operator, num2)
+            print(f"Result: {num1} {operator} {num2} = {result}")
+
+        except ValueError:
+            print("Error: Please enter valid numbers.")
+        except ZeroDivisionError as error:
+            print(f"Error: {error}")
+
+        again = input("Calculate again? (y/n): ").strip().lower()
+        if again != "y":
+            print("Goodbye!")
+            break
+
 
 if __name__ == "__main__":
     main()
-
