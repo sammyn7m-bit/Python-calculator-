@@ -9,7 +9,7 @@ class Calculator:
         "/": operator.truediv,
     }
 
-# define the operator and the division by zero
+# check the operator and the division by zero
     def calculate(self,num1, op, num2):
         if op not in self.OPS:
             raise ValueError("Invalid Operator")
