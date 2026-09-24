@@ -1,48 +1,49 @@
+import operator
+
+# define the operators
 class Calculator:
-    def calculate(self, num1, operator, num2):
-        if operator == "+":
-            return num1 + num2
-        elif operator == "-":
-            return num1 - num2
-        elif operator == "*":
-            return num1 * num2
-        elif operator == "/":
-            if num2 == 0:
-                raise ZeroDivisionError("Division by zero is undefined.")
-            return num1 / num2
-        else:
-            raise ValueError("Invalid operator.")
+    OPS ={
+        "+": operator.add,
+        "-": operator.sub,
+        "*": operator.mul,
+        "/": operator.truediv,
+    }
+
+# define the operator and the division by zero
+    def calculate(self,num1, op, num2):
+        if op not in self.OPS:
+            raise ValueError("Invalid Operator")
+
+        if op == "/" and num2 == 0:
+            raise ZeroDivisionError("Division by zero is undefined")
+
+        return self.OPS[op](num1, num2)
 
 
 def main():
+    print("--- Basic Calculator ---")
     calculator = Calculator()
 
-    print("--- Basic Calculator ---")
-
+# get user inputs
     while True:
-        try:
-            num1 = float(input("Enter first number: "))
-            operator = input("Enter operator (+, -, *, /): ").strip()
+     try:
+        num1 = float(input("Enter first number: "))
+        op = input("Enter operator (+, -, *, /): ").strip()
+        num2 = float(input("Enter second number: "))
 
-            if operator not in {"+", "-", "*", "/"}:
-                print("Error: Invalid operator.")
-                continue
+        result = calculator.calculate(num1, op, num2)
+        print(f"Result: {num1} {op} {num2} = {result}")
 
-            num2 = float(input("Enter second number: "))
+     except ValueError as error:
+        print(f"Error: {error}")
+     except ZeroDivisionError as error:
+        print(f"Error: {error}")
 
-            result = calculator.calculate(num1, operator, num2)
-            print(f"Result: {num1} {operator} {num2} = {result}")
 
-        except ValueError:
-            print("Error: Please enter valid numbers.")
-        except ZeroDivisionError as error:
-            print(f"Error: {error}")
-
-        again = input("Calculate again? (y/n): ").strip().lower()
-        if again != "y":
-            print("Goodbye!")
+     again = input("Calculate again? (y/n): ").strip().lower()
+     if again != "y":
+            print("Exiting!")
             break
-
 
 if __name__ == "__main__":
     main()
